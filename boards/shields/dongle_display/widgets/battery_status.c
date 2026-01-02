@@ -188,4 +188,4 @@ int zmk_widget_dongle_battery_status_init(struct zmk_widget_dongle_battery_statu
 lv_obj_t *zmk_widget_dongle_battery_status_obj(struct zmk_widget_dongle_battery_status *widget) {
     return widget->obj;
 }
-EOF
+
