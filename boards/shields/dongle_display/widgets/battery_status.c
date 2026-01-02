@@ -1,4 +1,3 @@
-cat > boards/shields/dongle_display/widgets/battery_status.c
 /*
  * SPDX-License-Identifier: MIT
  */
