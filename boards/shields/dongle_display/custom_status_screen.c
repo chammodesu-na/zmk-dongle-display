@@ -77,8 +77,8 @@ lv_obj_t *zmk_display_status_screen() {
     lv_obj_t *layer = zmk_widget_layer_status_obj(&layer_status_widget);
 
     // 아래 절반 전체 (3+4사분면)
-    lv_obj_set_pos(layer, 0, 22);
-    lv_obj_set_size(layer, 128, 10);
+    lv_obj_set_pos(layer, 0, 0);
+    lv_obj_set_size(layer, 128, 32);
     uint32_t cnt = lv_obj_get_child_cnt(layer);
     for (uint32_t i = 0; i < cnt; i++) {
         lv_obj_t *child = lv_obj_get_child(layer, i);
