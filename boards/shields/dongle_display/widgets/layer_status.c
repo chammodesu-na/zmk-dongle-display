@@ -7,7 +7,7 @@
 #include <string.h>
 #include <zephyr/kernel.h>
 #include <zephyr/logging/log.h>
-LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
+LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);;
 
 #include <zmk/display.h>
 #include <zmk/display/widgets/layer_status.h>
@@ -61,7 +61,10 @@ int zmk_widget_layer_status_init(struct zmk_widget_layer_status *widget, lv_obj_
     widget->obj = lv_label_create(parent);
     lv_obj_set_width(widget->obj, CONFIG_ZMK_DONGLE_DISPLAY_LAYER_NAME_SCROLL_WIDTH);
     lv_label_set_long_mode(widget->obj, LV_LABEL_LONG_SCROLL_CIRCULAR);
+    lv_obj_set_style_text_font(widget->obj, &lv_font_montserrat_12,
+                           LV_PART_MAIN | LV_STATE_DEFAULT);
 
+    lv_obj_set_width(widget->obj, CONFIG_ZMK_DONGLE_DISPLAY_LAYER_NAME_SCROLL_WIDTH);
     // Set text alignment based on config
     if (strcmp(CONFIG_ZMK_DONGLE_DISPLAY_LAYER_TEXT_ALIGN, "right") == 0) {
         lv_obj_set_style_text_align(widget->obj, LV_TEXT_ALIGN_RIGHT, 0);
