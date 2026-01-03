@@ -61,7 +61,7 @@ int zmk_widget_layer_status_init(struct zmk_widget_layer_status *widget, lv_obj_
     widget->obj = lv_label_create(parent);
     lv_obj_set_width(widget->obj, CONFIG_ZMK_DONGLE_DISPLAY_LAYER_NAME_SCROLL_WIDTH);
     lv_label_set_long_mode(widget->obj, LV_LABEL_LONG_SCROLL_CIRCULAR);
-    lv_obj_set_style_text_font(widget->obj, &lv_font_montserrat_12,
+    lv_obj_set_style_text_font(widget->obj, &lv_font_montserrat_14,
                            LV_PART_MAIN | LV_STATE_DEFAULT);
 
     lv_obj_set_width(widget->obj, CONFIG_ZMK_DONGLE_DISPLAY_LAYER_NAME_SCROLL_WIDTH);
