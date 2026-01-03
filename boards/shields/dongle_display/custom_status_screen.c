@@ -74,7 +74,7 @@ lv_obj_t *zmk_display_status_screen() {
 
 #if IS_ENABLED(CONFIG_ZMK_DONGLE_DISPLAY_LAYER)
     zmk_widget_layer_status_init(&layer_status_widget, screen);
-    
+    lv_obj_t *layer = zmk_widget_layer_status_obj(&layer_status_widget);
     // ✅ label 크기를 글씨 크기에 맞춤
     lv_obj_set_size(layer, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
 
