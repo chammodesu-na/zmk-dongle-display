@@ -76,11 +76,11 @@ lv_obj_t *zmk_display_status_screen() {
     zmk_widget_layer_status_init(&layer_status_widget, screen);
     lv_obj_t *layer = zmk_widget_layer_status_obj(&layer_status_widget);
     // ✅ label 크기를 글씨 크기에 맞춤
-    lv_obj_set_size(layer, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
     lv_obj_set_pos(layer, 0, 0);
     lv_obj_set_size(layer, 128, 32);
     // ✅ 화면 가로/세로 정중앙
     lv_obj_align(layer, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_set_style_pad_top(layer, 8, LV_PART_MAIN);
 #if IS_ENABLED(CONFIG_ZMK_DONGLE_DISPLAY_BONGO_CAT)
     lv_obj_align_to(zmk_widget_layer_status_obj(&layer_status_widget), zmk_widget_bongo_cat_obj(&bongo_cat_widget), LV_ALIGN_BOTTOM_RIGHT, 0, 5);
 #else
