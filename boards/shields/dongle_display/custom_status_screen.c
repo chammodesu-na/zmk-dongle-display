@@ -77,8 +77,14 @@ lv_obj_t *zmk_display_status_screen() {
     lv_obj_t *layer = zmk_widget_layer_status_obj(&layer_status_widget);
 
     // 아래 절반 전체 (3+4사분면)
-    lv_obj_set_pos(layer, 0, 16);
-    lv_obj_set_size(layer, 128, 16);
+    lv_obj_set_pos(layer, 0, 20);
+    lv_obj_set_size(layer, 128, 12);
+    lv_obj_t *label = lv_obj_get_child(layer, 0);
+    if (label) {
+        lv_obj_set_width(label, 128);
+        lv_obj_set_style_text_font(label, &lv_font_montserrat_14, LV_PART_MAIN);
+        lv_obj_set_style_text_align(label, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN);
+    }
 #if IS_ENABLED(CONFIG_ZMK_DONGLE_DISPLAY_BONGO_CAT)
     lv_obj_align_to(zmk_widget_layer_status_obj(&layer_status_widget), zmk_widget_bongo_cat_obj(&bongo_cat_widget), LV_ALIGN_BOTTOM_RIGHT, 0, 5);
 #else
