@@ -77,7 +77,8 @@ lv_obj_t *zmk_display_status_screen() {
     lv_obj_t *layer = zmk_widget_layer_status_obj(&layer_status_widget);
     // ✅ label 크기를 글씨 크기에 맞춤
     lv_obj_set_size(layer, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
-
+    lv_obj_set_pos(layer, 0, 0);
+    lv_obj_set_size(layer, 128, 32);
     // ✅ 화면 가로/세로 정중앙
     lv_obj_align(layer, LV_ALIGN_CENTER, 0, 0);
 #if IS_ENABLED(CONFIG_ZMK_DONGLE_DISPLAY_BONGO_CAT)
