@@ -56,7 +56,7 @@ enum selection_line_state {
     selection_line_state_bt
 } current_selection_line_state;
 
-// [수정 1] v9 'lv_point_precise_t' -> v8 'lv_point_t'
+/* [수정 1] v9 'lv_point_precise_t' -> v8 'lv_point_t' */
 lv_point_t selection_line_points[] = { {0, 0}, {13, 0} };
 
 struct output_status_state {
@@ -91,28 +91,21 @@ static void anim_x_cb(void * var, int32_t v) {
 }
 
 static void anim_size_cb(void * var, int32_t v) {
-    // lv_point_t로 변경되었으므로 x값 수정 방식은 동일하나 타입에 유의
     selection_line_points[1].x = v;
-    // 라인의 포인트가 변경되었음을 위젯에 알림 (새로 그리기 위해 필요할 수 있음)
-    // selection_line 객체를 여기서 바로 알 수 없으므로, 
-    // 보통은 line 객체에 대해 lv_line_set_points를 다시 호출하거나 invalidate 해주는 것이 좋으나
-    // 여기서는 points 배열 포인터가 그대로 연결되어 있으므로 invalidate만 되면 됩니다.
-    // 하지만 var가 line 객체 자체라면 lv_obj_invalidate(var)가 필요합니다.
-    // 일단 원본 로직을 유지합니다.
 }
 
 static void move_object_x(void *obj, int32_t from, int32_t to) {
     lv_anim_t a;
     lv_anim_init(&a);
     lv_anim_set_var(&a, obj);
-    lv_anim_set_duration(&a, 200);
+    
+    /* [수정 2] lv_anim_set_duration -> lv_anim_set_time */
+    lv_anim_set_time(&a, 200); 
+    
     lv_anim_set_exec_cb(&a, anim_x_cb);
     
-    // [수정 2] v8 방식의 Animation Path 설정
-    lv_anim_path_t path;
-    lv_anim_path_init(&path);
-    lv_anim_path_set_cb(&path, lv_anim_path_overshoot);
-    lv_anim_set_path(&a, &path);
+    /* [수정 3] lv_anim_path_t 제거하고 lv_anim_set_path_cb 직접 사용 */
+    lv_anim_set_path_cb(&a, lv_anim_path_overshoot);
     
     lv_anim_set_values(&a, from, to);
     lv_anim_start(&a);
@@ -122,14 +115,14 @@ static void change_size_object(void *obj, int32_t from, int32_t to) {
     lv_anim_t a;
     lv_anim_init(&a);
     lv_anim_set_var(&a, obj);
-    lv_anim_set_duration(&a, 200);
+    
+    /* [수정 4] lv_anim_set_duration -> lv_anim_set_time */
+    lv_anim_set_time(&a, 200);
+    
     lv_anim_set_exec_cb(&a, anim_size_cb);
 
-    // [수정 3] v8 방식의 Animation Path 설정
-    lv_anim_path_t path;
-    lv_anim_path_init(&path);
-    lv_anim_path_set_cb(&path, lv_anim_path_ease_in_out);
-    lv_anim_set_path(&a, &path);
+    /* [수정 5] lv_anim_path_t 제거하고 lv_anim_set_path_cb 직접 사용 */
+    lv_anim_set_path_cb(&a, lv_anim_path_ease_in_out);
 
     lv_anim_set_values(&a, from, to);
     lv_anim_start(&a);
@@ -160,7 +153,6 @@ static void set_status_symbol(lv_obj_t *widget, struct output_status_state state
         break;
     }
 
-    // 선의 길이가 바뀔 때 화면 갱신을 강제하기 위해 invalidate 추가
     lv_obj_invalidate(selection_line); 
 
     if (state.usb_is_hid_ready) {
