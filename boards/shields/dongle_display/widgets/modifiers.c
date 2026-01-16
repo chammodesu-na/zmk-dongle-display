@@ -10,7 +10,7 @@
 #include <zephyr/logging/log.h>
 LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
-/* [수정 1] LVGL 타입 인식을 위해 헤더 명시적 추가 */
+/* LVGL 헤더 추가 */
 #include <lvgl.h>
 
 #include <zmk/display.h>
@@ -100,16 +100,14 @@ static void move_object_y(void *obj, int32_t from, int32_t to) {
     lv_anim_init(&a);
     lv_anim_set_var(&a, obj);
     
-    /* [수정 2] lv_anim_set_duration -> lv_anim_set_time */
+    /* [수정 1] lv_anim_set_duration -> lv_anim_set_time (ZMK 호환) */
     lv_anim_set_time(&a, 200);
     
     lv_anim_set_exec_cb(&a, anim_y_cb);
     
-    /* [수정 3] lv_anim_set_path_cb -> v8 구조체 방식 */
-    lv_anim_path_t path;
-    lv_anim_path_init(&path);
-    lv_anim_path_set_cb(&path, lv_anim_path_overshoot);
-    lv_anim_set_path(&a, &path);
+    /* [수정 2] 구조체 대신 콜백 직접 사용 방식으로 변경 */
+    /* lv_anim_path_t 오류가 나므로 원래 코드 스타일인 set_path_cb 사용 */
+    lv_anim_set_path_cb(&a, lv_anim_path_overshoot);
     
     lv_anim_set_values(&a, from, to);
     lv_anim_start(&a);
@@ -156,7 +154,7 @@ int zmk_widget_modifiers_init(struct zmk_widget_modifiers *widget, lv_obj_t *par
     lv_style_init(&style_line);
     lv_style_set_line_width(&style_line, 2);
 
-    /* [수정 4] lv_point_precise_t -> lv_point_t */
+    /* [수정 3] lv_point_precise_t -> lv_point_t (v8 호환) */
     static const lv_point_t selection_line_points[] = { {0, 0}, {SIZE_SYMBOLS, 0} };
 
     for (int i = 0; i < NUM_SYMBOLS; i++) {
