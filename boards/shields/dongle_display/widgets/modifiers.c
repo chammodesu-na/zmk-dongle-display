@@ -10,6 +10,9 @@
 #include <zephyr/logging/log.h>
 LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
+/* [수정 1] LVGL 타입 인식을 위해 헤더 명시적 추가 */
+#include <lvgl.h>
+
 #include <zmk/display.h>
 #include <zmk/event_manager.h>
 #include <zmk/events/keycode_state_changed.h>
@@ -96,9 +99,18 @@ static void move_object_y(void *obj, int32_t from, int32_t to) {
     lv_anim_t a;
     lv_anim_init(&a);
     lv_anim_set_var(&a, obj);
-    lv_anim_set_duration(&a, 200);
+    
+    /* [수정 2] lv_anim_set_duration -> lv_anim_set_time */
+    lv_anim_set_time(&a, 200);
+    
     lv_anim_set_exec_cb(&a, anim_y_cb);
-    lv_anim_set_path_cb(&a, lv_anim_path_overshoot);
+    
+    /* [수정 3] lv_anim_set_path_cb -> v8 구조체 방식 */
+    lv_anim_path_t path;
+    lv_anim_path_init(&path);
+    lv_anim_path_set_cb(&path, lv_anim_path_overshoot);
+    lv_anim_set_path(&a, &path);
+    
     lv_anim_set_values(&a, from, to);
     lv_anim_start(&a);
 }
@@ -144,7 +156,8 @@ int zmk_widget_modifiers_init(struct zmk_widget_modifiers *widget, lv_obj_t *par
     lv_style_init(&style_line);
     lv_style_set_line_width(&style_line, 2);
 
-    static const lv_point_precise_t selection_line_points[] = { {0, 0}, {SIZE_SYMBOLS, 0} };
+    /* [수정 4] lv_point_precise_t -> lv_point_t */
+    static const lv_point_t selection_line_points[] = { {0, 0}, {SIZE_SYMBOLS, 0} };
 
     for (int i = 0; i < NUM_SYMBOLS; i++) {
         modifier_symbols[i]->symbol = lv_img_create(widget->obj);
