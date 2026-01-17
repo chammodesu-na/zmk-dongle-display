@@ -68,8 +68,9 @@ config LV_Z_MEM_POOL_SIZE
 config LV_Z_VDB_SIZE
     default 64
 
+# DPI 설정을 96으로 낮춤 (기본값이 148이라 너무 컸음)
 config LV_DPI_DEF
-    default 148
+    default 96
 
 config LV_Z_BITS_PER_PIXEL
     default 1
